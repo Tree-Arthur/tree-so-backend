@@ -1,6 +1,7 @@
 package com.tree.treeso.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.tree.treeso.model.dto.user.UserQueryRequest;
 import com.tree.treeso.model.entity.User;
@@ -118,4 +119,9 @@ public interface UserService extends IService<User> {
      */
     QueryWrapper<User> getQueryWrapper(UserQueryRequest userQueryRequest);
 
+    /**
+     * 分页搜索用户
+     * @param userQueryRequest
+     */
+    Page<UserVO> listUserVoByPage(UserQueryRequest userQueryRequest);
 }

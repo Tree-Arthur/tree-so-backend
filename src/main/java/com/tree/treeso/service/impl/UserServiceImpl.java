@@ -4,6 +4,7 @@ import static com.tree.treeso.constant.UserConstant.USER_LOGIN_STATE;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tree.treeso.common.ErrorCode;
 import com.tree.treeso.constant.CommonConstant;
@@ -268,5 +269,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         queryWrapper.orderBy(SqlUtils.validSortField(sortField), sortOrder.equals(CommonConstant.SORT_ORDER_ASC),
                 sortField);
         return queryWrapper;
+    }
+
+    @Override
+    public Page<UserVO> listUserVoByPage(UserQueryRequest userQueryRequest) {
+        long current = userQueryRequest.getCurrent();//页码
+        long size = userQueryRequest.getPageSize();//一页数据量
+        Page<User> userPage = this.page(new Page<>(current, size),
+                this.getQueryWrapper(userQueryRequest));
+        Page<UserVO> userVOPage = new Page<>(current, size, userPage.getTotal());
+        List<UserVO> userVO = this.getUserVO(userPage.getRecords());//user数据脱敏
+        userVOPage.setRecords(userVO);//
+        return userVOPage;
     }
 }

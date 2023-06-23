@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.gson.Gson;
 import com.tree.treeso.common.ErrorCode;
+import com.tree.treeso.common.ResultUtils;
 import com.tree.treeso.constant.CommonConstant;
 import com.tree.treeso.exception.BusinessException;
 import com.tree.treeso.exception.ThrowUtils;
@@ -307,6 +308,15 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         }).collect(Collectors.toList());
         postVOPage.setRecords(postVOList);
         return postVOPage;
+    }
+
+    @Override
+    public Page<PostVO> listPostVOByPage(PostQueryRequest postQueryRequest, HttpServletRequest request) {
+        long current = postQueryRequest.getCurrent();//当前页码
+        long size = postQueryRequest.getPageSize();//一页数据量
+        Page<Post> postPage = this.page(new Page<>(current, size),
+                this.getQueryWrapper(postQueryRequest));
+        return this.getPostVOPage(postPage, request);
     }
 
 }
