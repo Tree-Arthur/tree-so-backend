@@ -17,9 +17,6 @@ import org.springframework.data.domain.Sort;
 
 /**
  * 帖子 ES 操作测试
- *
- * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
  */
 @SpringBootTest
 public class PostEsDaoTest {
@@ -42,18 +39,20 @@ public class PostEsDaoTest {
     void testSelect() {
         System.out.println(postEsDao.count());
         Page<PostEsDTO> PostPage = postEsDao.findAll(
-                PageRequest.of(0, 5, Sort.by("createTime")));
+                PageRequest.of(0, 5, Sort.by("createTime")));//分页查询
         List<PostEsDTO> postList = PostPage.getContent();
         System.out.println(postList);
+        Optional<PostEsDTO> byId = postEsDao.findById(1L);// 根据 Id 查询
+        System.out.println(byId);
     }
 
     @Test
     void testAdd() {
         PostEsDTO postEsDTO = new PostEsDTO();
-        postEsDTO.setId(1L);
-        postEsDTO.setTitle("test");
-        postEsDTO.setContent("test");
-        postEsDTO.setTags(Arrays.asList("java", "python"));
+        postEsDTO.setId(2L);
+        postEsDTO.setTitle("tree2");
+        postEsDTO.setContent("tree-arthur2");
+        postEsDTO.setTags(Arrays.asList("java2", "python2"));
         postEsDTO.setThumbNum(1);
         postEsDTO.setFavourNum(1);
         postEsDTO.setUserId(1L);
@@ -79,5 +78,11 @@ public class PostEsDaoTest {
     void testFindByCategory() {
         List<PostEsDTO> postEsDaoTestList = postEsDao.findByUserId(1L);
         System.out.println(postEsDaoTestList);
+    }
+
+    @Test
+    void testFindByTitle(){
+        List<PostEsDTO> postEsDTOTestList = postEsDao.findByTitle("tree");
+        System.out.println(postEsDTOTestList);
     }
 }

@@ -22,9 +22,6 @@ import java.util.stream.Collectors;
 
 /**
  * 获取初始帖子列表
- *
- * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
  */
 // todo 取消注释后每次启动springboot项目会执行一次run方法
 //@Component
